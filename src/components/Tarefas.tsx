@@ -4,8 +4,9 @@ import type { Tarefa } from "../models/tarefa.model";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { seletorTarefas, tarefaAdicionada, tarefaRemovida } from "../features/tarefa-slice";
 
-const Tarefas: React.FC = () => {
+const Tarefas = () => {
   const [novaTarefa, setNovaTarefa] = useState("");
+
   const tarefas = useAppSelector(seletorTarefas);
   const dispatch = useAppDispatch();
 

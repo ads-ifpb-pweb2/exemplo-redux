@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { Tarefa } from "../models/tarefa.model";
 import type { RootState } from "../store/store";
 
@@ -8,14 +8,14 @@ export interface TarefasState {
 }
 
 const estadoInicial: TarefasState = {
-  tarefas: [] as Tarefa[],
+  tarefas: [],
 };
 
 export const tarefasSlice = createSlice({
-  name: "tarefas",
+  name: "planejamento",
   initialState: estadoInicial,
   reducers: {
-    tarefaAdicionada: (state, action) => {
+    tarefaAdicionada: (state, action: PayloadAction<Tarefa>) => {
       state.tarefas.push(action.payload);
     },
     tarefaRemovida: (state, action) => {
@@ -27,4 +27,10 @@ export const tarefasSlice = createSlice({
 export const { tarefaAdicionada, tarefaRemovida } = tarefasSlice.actions;
 export default tarefasSlice.reducer;
 
-export const seletorTarefas = (estado: RootState): Tarefa[] => estado.tarefas.tarefas;
+export const seletorTarefas = (estado: RootState): Tarefa[] => estado.planejamento.tarefas;
+
+export const seletorTarefaPorId = (estado: RootState, id: string): Tarefa | undefined =>
+  estado.planejamento.tarefas.find((tarefa) => tarefa.id === id);
+
+export const seletorTarefasPendentes = (estado: RootState): Tarefa[] =>
+  estado.planejamento.tarefas.filter((tarefa) => !tarefa.concluida);
